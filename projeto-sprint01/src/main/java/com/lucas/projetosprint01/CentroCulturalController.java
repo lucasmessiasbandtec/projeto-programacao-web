@@ -4,9 +4,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/centro")
+@RequestMapping("/obras")
 public class CentroCulturalController {
 
     //Atributos
@@ -50,22 +51,16 @@ public class CentroCulturalController {
     }
 
     //endpoint para exibir as obras disponíveis no Centro Cultural
-    @GetMapping("/obras")
+    @GetMapping("/disponivel")
     public List<Obra> getObras() {
         return obras;
     }
 
     //endpoint para exibir as obras disponíveis pelo movimento artístico
     @GetMapping("/movimento/{id}")
-    public String exibirMovimento(@PathVariable String id) {
-          String movimento = "";
-
-        for (Obra o : obras) {
-            if (id.equals(o.getMovimentoArtistico())) {
-                movimento += ((o.getNome()) + " | ");
-            }
-        }
-        return movimento;
+    public List exibirMovimento(@PathVariable String id) {
+          return obras.stream().filter(obra -> obra.getArtista().equals(id))
+                  .collect(Collectors.toList());
     }
 
     //endpoint para exibir as obras pelos artistas
@@ -82,7 +77,7 @@ public class CentroCulturalController {
     }
 
     //endpoint para deletar uma obra do Centro Cultural
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     public void excluirObra(@PathVariable int id) {
         obras.remove(id - 1);
     }
