@@ -15,44 +15,44 @@ public class CentroCulturalController {
     private List<Compravel> compras = new ArrayList<Compravel>();
 
     //endpoint para adicionar uma pintura ao Centro Cultural
-    @PostMapping("/adicionarpintura")
+    @PostMapping("/pintura")
     public void adicionaPintura(@RequestBody Pintura p) {
         obras.add(p);
     }
 
     //endpoint para adicionar uma escultura ao Centro Cultural
-    @PostMapping("/adicionarescultura")
+    @PostMapping("/escultura")
     public void adicionaEscultura(@RequestBody Escultura e) {
         obras.add(e);
     }
 
     //endpoint para adicionar um filme ao Centro Cultural
-    @PostMapping("/adicionarfilme")
+    @PostMapping("/filme")
     public void adicionaFilme(@RequestBody Cinema c) {
         obras.add(c);
     }
 
     //endpoint para adicionar uma dança ao Centro Cultural
-    @PostMapping("/adicionardanca")
+    @PostMapping("/danca")
     public void adicionaFilme(@RequestBody Danca d) {
         obras.add(d);
     }
 
     //endpoint para adicionar uma música ao Centro Cultural
-    @PostMapping("/adicionarmusica")
+    @PostMapping("/musica")
     public void adicionaMusica(@RequestBody Musica m) {
         obras.add(m);
     }
 
     //endpoint para adicionar um livro ao Centro Cultural
-    @PostMapping("/adicionarlivro")
+    @PostMapping("/livro")
     public void adicionaLivro(@RequestBody Literatura l) {
         obras.add(l);
     }
 
     //endpoint para exibir as obras disponíveis no Centro Cultural
-    @GetMapping("/disponivel")
-    public List<Obra> getObras() {
+    @GetMapping
+    public List<Obra> listarObras() {
         return obras;
     }
 
