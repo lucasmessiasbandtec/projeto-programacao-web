@@ -1,5 +1,6 @@
 package com.lucas.projetosprint01;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,76 +17,113 @@ public class CentroCulturalController {
 
     //endpoint para adicionar uma pintura ao Centro Cultural
     @PostMapping("/pintura")
-    public void adicionaPintura(@RequestBody Pintura p) {
+    public ResponseEntity adicionaPintura(@RequestBody Pintura p) {
+
         obras.add(p);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para adicionar uma escultura ao Centro Cultural
     @PostMapping("/escultura")
-    public void adicionaEscultura(@RequestBody Escultura e) {
+    public ResponseEntity adicionaEscultura(@RequestBody Escultura e) {
+
         obras.add(e);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para adicionar um filme ao Centro Cultural
     @PostMapping("/filme")
-    public void adicionaFilme(@RequestBody Cinema c) {
+    public ResponseEntity adicionaFilme(@RequestBody Cinema c) {
+
         obras.add(c);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para adicionar uma dança ao Centro Cultural
     @PostMapping("/danca")
-    public void adicionaFilme(@RequestBody Danca d) {
+    public ResponseEntity adicionaFilme(@RequestBody Danca d) {
+
         obras.add(d);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para adicionar uma música ao Centro Cultural
     @PostMapping("/musica")
-    public void adicionaMusica(@RequestBody Musica m) {
+    public ResponseEntity adicionaMusica(@RequestBody Musica m) {
+
         obras.add(m);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para adicionar um livro ao Centro Cultural
     @PostMapping("/livro")
-    public void adicionaLivro(@RequestBody Literatura l) {
+    public ResponseEntity adicionaLivro(@RequestBody Literatura l) {
+
         obras.add(l);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para exibir as obras disponíveis no Centro Cultural
     @GetMapping
-    public List<Obra> listarObras() {
-        return obras;
+    public ResponseEntity listarObras() {
+        if (obras.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.ok(obras);
+        }
     }
 
     //endpoint para exibir as obras disponíveis pelo movimento artístico
     @GetMapping("/movimento/{id}")
-    public List exibirMovimento(@PathVariable String id) {
-          return obras.stream().filter(obra -> obra.getMovimentoArtistico().equals(id))
+    public ResponseEntity exibirMovimento(@PathVariable String id) {
+          List<Obra> obrasMovimento = obras.stream().filter(obra -> obra.getMovimentoArtistico().equals(id))
                   .collect(Collectors.toList());
+
+          if (obrasMovimento.isEmpty()) {
+              return ResponseEntity.status(204).build();
+          } else {
+              return ResponseEntity.ok(obrasMovimento);
+          }
     }
 
     //endpoint para exibir as obras pelos artistas
     @GetMapping("/artista/{id}")
-    public List exibirArtista(@PathVariable String id) {
-        return obras.stream().filter(obra -> obra.getArtista().equals(id))
+    public ResponseEntity exibirArtista(@PathVariable String id) {
+        List<Obra> obrasArtista = obras.stream().filter(obra -> obra.getArtista().equals(id))
                 .collect(Collectors.toList());
+
+        if(obrasArtista.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.ok(obrasArtista);
+        }
     }
 
     //endpoint para deletar uma obra do Centro Cultural
     @DeleteMapping("/{id}")
-    public void excluirObra(@PathVariable int id) {
-        obras.remove(id - 1);
+    public ResponseEntity excluirObra(@PathVariable int id) {
+        if (obras.size() >= id) {
+            obras.remove(id -1);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
 
     //endpoint para comprar uma pintura
     @PostMapping("/comprarpintura")
-    public void compraPintura(@RequestBody Pintura p) {
+    public ResponseEntity compraPintura(@RequestBody Pintura p) {
+
         compras.add(p);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para comprar uma escultura
     @PostMapping("/comprarescultura")
-    public void compraEscultura(@RequestBody Escultura e) {
+    public ResponseEntity compraEscultura(@RequestBody Escultura e) {
+
         compras.add(e);
+        return ResponseEntity.status(201).build();
     }
 
     //endpoint para saber o total da venda
@@ -102,7 +140,11 @@ public class CentroCulturalController {
 
     //endpoint para listar as obras compradas
     @GetMapping("/comprados")
-    public List<Compravel> getCompras() {
-        return compras;
+    public ResponseEntity getCompras() {
+        if (compras.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.ok(compras);
+        }
     }
 }
