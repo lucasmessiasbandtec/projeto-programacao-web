@@ -59,21 +59,15 @@ public class CentroCulturalController {
     //endpoint para exibir as obras disponíveis pelo movimento artístico
     @GetMapping("/movimento/{id}")
     public List exibirMovimento(@PathVariable String id) {
-          return obras.stream().filter(obra -> obra.getArtista().equals(id))
+          return obras.stream().filter(obra -> obra.getMovimentoArtistico().equals(id))
                   .collect(Collectors.toList());
     }
 
     //endpoint para exibir as obras pelos artistas
     @GetMapping("/artista/{id}")
-    public String exibirArtista(@PathVariable String id) {
-        String artista = "";
-
-        for (Obra o : obras) {
-            if (id.equals(o.getArtista())) {
-                artista += ((o.getNome()) + " | ");
-            }
-        }
-        return artista;
+    public List exibirArtista(@PathVariable String id) {
+        return obras.stream().filter(obra -> obra.getArtista().equals(id))
+                .collect(Collectors.toList());
     }
 
     //endpoint para deletar uma obra do Centro Cultural
